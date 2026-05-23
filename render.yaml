@@ -1,12 +1,27 @@
 services:
   - type: web_service
-    name: chat-app
+    name: chat-app-backend
     env: node
     plan: free
     branch: main
-    buildCommand: npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend
+    buildCommand: npm install --prefix backend
     startCommand: npm start --prefix backend
     autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
+      - key: FRONTEND_URL
+        value: https://chat-app-frontend.onrender.com
+
+  - type: static_site
+    name: chat-app-frontend
+    env: node
+    plan: free
+    branch: main
+    rootDirectory: frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    autoDeploy: true
+    envVars:
+      - key: VITE_API_URL
+        value: https://chat-app-backend.onrender.com

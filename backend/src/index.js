@@ -24,13 +24,14 @@ import User from "./models/user.model.js";
 dotenv.config();
 
 const PORT = process.env.PORT;
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 const __dirname = path.resolve();
 
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_URL,
     credentials: true,
   })
 );
